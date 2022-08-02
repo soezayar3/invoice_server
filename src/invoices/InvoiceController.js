@@ -3,7 +3,7 @@ import InvoiceModel from "./InvoiceModel.js";
 export const getInvoices = async (req, res) => {
     try {
         const invoices = await InvoiceModel.find();
-        res.status(200).json(invoices);
+        res.status(200).json({ data: invoices });
     } catch (error) {
         console.log(error);
         res.status(404).json({ message: error.message });
