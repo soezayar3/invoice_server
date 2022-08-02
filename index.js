@@ -5,6 +5,8 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 dotenv.config();
 
+import productRoutes from "./src/products/ProductRoutes.js";
+
 const app = express();
 const PORT = process.env.PORT || 3030;
 
@@ -15,6 +17,8 @@ app.use(cors());
 app.get("/", (req, res) => {
     res.send("APP IS RUNNING");
 });
+
+app.use("/products", productRoutes);
 
 mongoose
     .connect(process.env.CONNECTION_URL)
