@@ -6,6 +6,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import productRoutes from "./src/products/ProductRoutes.js";
+import invoiceRoutes from "./src/invoices/InvoiceRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3030;
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/products", productRoutes);
+app.use("/invoices", invoiceRoutes);
 
 mongoose
     .connect(process.env.CONNECTION_URL)
