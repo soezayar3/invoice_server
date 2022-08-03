@@ -2,7 +2,7 @@ import InvoiceModel from "./InvoiceModel.js";
 
 export const getInvoices = async (req, res) => {
     try {
-        const _invoices = await InvoiceModel.find();
+        const _invoices = await InvoiceModel.find().sort({ _id: -1 });
         let invoices = [];
         _invoices.map((invoice) => {
             invoices.push({
