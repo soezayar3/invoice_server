@@ -54,22 +54,37 @@ export const getInvoiceGraph = async (req, res) => {
 
         const d1 = invoices[0].date.toLocaleDateString("en-US");
         const d2 = new Date().toLocaleDateString("en-US");
-
         const dateRanges = getDaysBetweenDates(d1, d2);
 
         const dailyGraph = {};
+        const monthlyGraph = {};
+        const yearlyGraph = {};
 
         dateRanges.map((day) => {
-            let _total = 0;
+            let _dailyTotal = 0;
+            let _monthlyTotal = 0;
+            let _yearlyTotal = 0;
             invoices.map((invoice) => {
                 if (invoice.date.toLocaleDateString("en-US") == day) {
-                    _total += invoice.totalPrice;
-                    dailyGraph[day] = _total;
+                    _dailyTotal += invoice.totalPrice;
+                    dailyGraph[day] = _dailyTotal;
+                }
+                if (
+                    new Date(day).getFullYear() == invoice.date.getFullYear() &&
+                    new Date(day).toLocaleString("en-US", { month: "long" }) ==
+                        invoice.date.toLocaleString("en-US", { month: "long" })
+                ) {
+                    _monthlyTotal += invoice.totalPrice;
+                    monthlyGraph[invoice.date.toLocaleString("en-US", { month: "long" })] = _monthlyTotal;
+                }
+                if (new Date(day).getFullYear() == invoice.date.getFullYear()) {
+                    _yearlyTotal += invoice.totalPrice;
+                    yearlyGraph[invoice.date.getFullYear()] = _yearlyTotal;
                 }
             });
         });
 
-        res.status(200).json({ dailyGraph });
+        res.status(200).json({ dailyGraph, monthlyGraph, yearlyGraph });
     } catch (error) {
         console.log(error);
         res.status(404).json({ message: error.message });
