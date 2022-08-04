@@ -23,6 +23,6 @@ app.use("/products", productRoutes);
 app.use("/invoices", invoiceRoutes);
 
 mongoose
-    .connect("mongodb+srv://szyar:YOmUWUfNoucodoOH@cluster0.mrgyr0f.mongodb.net/?retryWrites=true&w=majority")
+    .connect(process.env.CONNECTION_URL)
     .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
     .catch((error) => console.log(error));
